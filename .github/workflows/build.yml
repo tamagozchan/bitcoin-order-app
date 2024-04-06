@@ -2,7 +2,11 @@ name: Bitcoin order App
 on:
   push:
     branches:
+<<<<<<< HEAD
       - master
+=======
+      - githubcicd
+>>>>>>> 09e1958bee4d52bd943e98d45087bccd81202aaa
 jobs:
   ci:
     runs-on: ubuntu-latest
@@ -13,7 +17,11 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+<<<<<<< HEAD
 
+=======
+      - uses: browser-actions/setup-chrome@latest
+>>>>>>> 09e1958bee4d52bd943e98d45087bccd81202aaa
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
@@ -32,6 +40,7 @@ jobs:
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
             ${{ runner.os }}-
+<<<<<<< HEAD
       - name: Install puppeteer
 	run: |
 	  npm install puppeteer --save-dev
@@ -48,23 +57,52 @@ jobs:
       - name: Test
         run: |
           npm run test --watch=false --browsers=ChromeHeadlessCustom"
+=======
+      - name: Install Dependencies
+        if: steps.cache-nodemodules.outputs.cache-hit != 'true'
+        run: |
+          npm ci --force
+      - name: Build
+        run: |
+          npm run build --force
+      - name: Lint
+        run: |
+          npm run lint
+      - name: Update types to latest
+        run: |
+          npm install --save-dev @types/node@latest --force
+      #- name: Test
+      #  run: |
+      #    npm run test --watch=false --browsers=ChromeHeadless
+>>>>>>> 09e1958bee4d52bd943e98d45087bccd81202aaa
       - name: Conventional Changelog Action
         id: changelog
         uses: TriPSs/conventional-changelog-action@v3
         with:
+<<<<<<< HEAD
           github-token: ${{ secrets.GITHUB_TOKEN }}
+=======
+          github-token: ${{ secrets.WORKSHOP6_GITHUB_TOKEN }}
+>>>>>>> 09e1958bee4d52bd943e98d45087bccd81202aaa
           output-file: "false"
 
       - name: Create Release
         uses: actions/create-release@v1
         if: ${{ steps.changelog.outputs.skipped == 'false' }}
         env:
+<<<<<<< HEAD
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+=======
+          GITHUB_TOKEN: ${{ secrets.WORKSHOP6_GITHUB_TOKEN }}
+>>>>>>> 09e1958bee4d52bd943e98d45087bccd81202aaa
         with:
           tag_name: ${{ steps.changelog.outputs.tag }}
           release_name: ${{ steps.changelog.outputs.tag }}
           body: ${{ steps.changelog.outputs.clean_changelog }}
+<<<<<<< HEAD
 
+=======
+>>>>>>> 09e1958bee4d52bd943e98d45087bccd81202aaa
       - name: Deploy
         run: |
           npm run deploy
